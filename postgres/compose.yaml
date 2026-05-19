@@ -1,0 +1,12 @@
+services:
+  db:
+    image: postgres:18
+    container_name: pg-bench
+    environment:
+      POSTGRES_USER: benchuser
+      POSTGRES_PASSWORD: benchpass
+      POSTGRES_DB: benchdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
