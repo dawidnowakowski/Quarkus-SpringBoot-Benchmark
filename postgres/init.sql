@@ -21,7 +21,7 @@ CREATE TABLE enrollments
     student_id      BIGINT NOT NULL,
     course_id       BIGINT NOT NULL,
     enrollment_date DATE   NOT NULL,
-    grade           NUMERIC(4, 2),
+    grade           NUMERIC(5, 2),
     PRIMARY KEY (student_id, course_id)
 );
 
