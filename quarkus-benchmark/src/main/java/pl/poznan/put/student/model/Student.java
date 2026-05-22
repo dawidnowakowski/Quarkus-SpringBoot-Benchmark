@@ -2,11 +2,16 @@ package pl.poznan.put.student.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "students")
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "students_seq")
+    // to avoid error in schema validation allocationSize must be set to what it is set to in database
+    @SequenceGenerator(name = "students_seq", sequenceName = "students_seq", allocationSize = 1)
     private Long id;
 
     @Column(name = "first_name", nullable = false)
@@ -17,6 +22,9 @@ public class Student {
 
     @Column(nullable = false, unique = true)
     private String email;
+
+    @OneToMany(mappedBy = "student")
+    private List<Enrollment> enrollments = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -48,5 +56,13 @@ public class Student {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Enrollment> getEnrollments() {
+        return enrollments;
+    }
+
+    public void setEnrollments(List<Enrollment> enrollments) {
+        this.enrollments = enrollments;
     }
 }
