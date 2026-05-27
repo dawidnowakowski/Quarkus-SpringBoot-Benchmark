@@ -2,6 +2,7 @@ package pl.poznan.put.student.model;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -14,17 +15,17 @@ public class Enrollment {
     private LocalDate enrollmentDate;
 
     @Column(name = "grade")
-    private Double grade;
+    private BigDecimal grade;
 
     @ManyToOne
     @MapsId("studentId")
     @JoinColumn(name = "student_id")
     private Student student;
 
-//    @ManyToOne
-//    @MapsId("courseId")
-//    @JoinColumn(name = "course_id")
-//    private Course course;
+    @ManyToOne
+    @MapsId("courseId")
+    @JoinColumn(name = "course_id")
+    private Course course;
 
     public EnrollmentId getEnrollmentId() {
         return enrollmentId;
@@ -42,11 +43,11 @@ public class Enrollment {
         this.enrollmentDate = enrollmentDate;
     }
 
-    public Double getGrade() {
+    public BigDecimal getGrade() {
         return grade;
     }
 
-    public void setGrade(Double grade) {
+    public void setGrade(BigDecimal grade) {
         this.grade = grade;
     }
 
@@ -56,5 +57,13 @@ public class Enrollment {
 
     public void setStudent(Student student) {
         this.student = student;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 }
