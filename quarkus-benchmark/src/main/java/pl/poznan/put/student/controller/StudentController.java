@@ -3,6 +3,7 @@ package pl.poznan.put.student.controller;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import org.jboss.resteasy.reactive.RestPath;
 import pl.poznan.put.student.dto.StudentDTO;
 import pl.poznan.put.student.service.StudentService;
 
@@ -16,7 +17,7 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @GET()
+    @GET
     public List<StudentDTO> getAllStudents() {
         return this.studentService.getAllStudents();
     }
@@ -25,4 +26,11 @@ public class StudentController {
     public StudentDTO createStudent(StudentDTO newStudent) {
         return this.studentService.createStudent(newStudent);
     }
+
+    @GET
+    @Path("/{id}")
+    public StudentDTO getStudentById(@RestPath Long id) {
+        return this.studentService.getStudent(id);
+    }
+
 }

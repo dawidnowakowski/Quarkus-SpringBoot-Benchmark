@@ -28,4 +28,9 @@ public class StudentService {
         this.studentRepository.persist(student);
         return StudentMapper.map(student);
     }
+
+    @Transactional
+    public StudentDTO getStudent(Long id) {
+        return StudentMapper.map(this.studentRepository.findById(id));
+    }
 }
