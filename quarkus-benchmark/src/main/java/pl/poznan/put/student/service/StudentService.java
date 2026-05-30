@@ -3,6 +3,7 @@ package pl.poznan.put.student.service;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import pl.poznan.put.student.dto.StudentDTO;
+import pl.poznan.put.student.model.Student;
 import pl.poznan.put.student.repository.StudentRepository;
 import pl.poznan.put.student.utils.StudentMapper;
 
@@ -21,13 +22,10 @@ public class StudentService {
         return studentRepository.listAll().stream().map(StudentMapper::map).toList();
     }
 
-//    @Transactional
-//    public StudentDTO createStudent(StudentDTO student) {
-//        Student newStudent = new Student();
-//        newStudent.setEmail(student.email());
-//        newStudent.setFirstName(student.firstName());
-//        newStudent.setLastName(student.lastName());
-//        this.studentRepository.persist(newStudent);
-//        return new StudentDTO(newStudent.getId(), newStudent.getFirstName(), newStudent.getLastName(), newStudent.getEmail(), newStudent.getEnrollments().stream().map(enrollment -> new EnrollmentDTO(enrollment.getEnrollmentDate(), enrollment.getGrade(), enrollment.getCourse())).toList());
-//    }
+    @Transactional
+    public StudentDTO createStudent(StudentDTO studentDTO) {
+        Student student = StudentMapper.map(studentDTO);
+        this.studentRepository.persist(student);
+        return StudentMapper.map(student);
+    }
 }

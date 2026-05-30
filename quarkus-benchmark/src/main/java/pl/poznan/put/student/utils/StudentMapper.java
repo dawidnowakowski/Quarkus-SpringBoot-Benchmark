@@ -12,4 +12,12 @@ public class StudentMapper {
                 student.getEnrollments().stream().map(EnrollmentMapper::map).toList()
         );
     }
+
+    public static Student map(StudentDTO studentDTO) {
+        Student student = new Student();
+        student.setFirstName(studentDTO.firstName());
+        student.setLastName(studentDTO.lastName());
+        student.setEmail(studentDTO.email());
+        return student;
+    }
 }

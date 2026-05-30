@@ -1,6 +1,7 @@
 package pl.poznan.put.student.controller;
 
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import pl.poznan.put.student.dto.StudentDTO;
 import pl.poznan.put.student.service.StudentService;
@@ -20,8 +21,8 @@ public class StudentController {
         return this.studentService.getAllStudents();
     }
 
-//    @POST
-//    public StudentDTO createStudent(StudentDTO newStudent) {
-//        return this.studentService.createStudent(newStudent);
-//    }
+    @POST
+    public StudentDTO createStudent(StudentDTO newStudent) {
+        return this.studentService.createStudent(newStudent);
+    }
 }
