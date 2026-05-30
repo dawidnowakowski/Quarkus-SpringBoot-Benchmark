@@ -1,10 +1,10 @@
 package pl.poznan.put.student.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import pl.poznan.put.student.dto.CourseDTO;
-import pl.poznan.put.student.dto.EnrollmentDTO;
+import jakarta.transaction.Transactional;
 import pl.poznan.put.student.dto.StudentDTO;
 import pl.poznan.put.student.repository.StudentRepository;
+import pl.poznan.put.student.utils.StudentMapper;
 
 import java.util.List;
 
@@ -16,8 +16,9 @@ public class StudentService {
         this.studentRepository = studentRepository;
     }
 
+    @Transactional
     public List<StudentDTO> getAllStudents() {
-        return studentRepository.listAll().stream().map(student -> new StudentDTO(student.getId(), student.getFirstName(), student.getLastName(), student.getEmail(), student.getEnrollments().stream().map(enrollment -> new EnrollmentDTO(enrollment.getEnrollmentDate(), enrollment.getGrade(), new CourseDTO(enrollment.getCourse().getTitle(), enrollment.getCourse().getDepartment(), enrollment.getCourse().getCredits()))).toList())).toList();
+        return studentRepository.listAll().stream().map(StudentMapper::map).toList();
     }
 
 //    @Transactional
