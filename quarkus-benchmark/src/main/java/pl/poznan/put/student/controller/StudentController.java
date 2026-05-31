@@ -1,9 +1,7 @@
 package pl.poznan.put.student.controller;
 
 import jakarta.validation.Valid;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
+import jakarta.ws.rs.*;
 import org.jboss.resteasy.reactive.RestPath;
 import pl.poznan.put.student.dto.StudentDTO;
 import pl.poznan.put.student.service.StudentService;
@@ -34,4 +32,14 @@ public class StudentController {
         return this.studentService.getStudent(id);
     }
 
+    @PUT
+    public StudentDTO updateStudent(@Valid StudentDTO studentDTO) {
+        return this.studentService.updateStudent(studentDTO);
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public void deleteStudent(@RestPath Long id) {
+        this.studentService.deleteStudent(id);
+    }
 }

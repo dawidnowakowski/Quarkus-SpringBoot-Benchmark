@@ -6,6 +6,7 @@ import pl.poznan.put.student.model.Student;
 public class StudentMapper {
     public static StudentDTO map(Student student) {
         return new StudentDTO(
+                student.getId(),
                 student.getFirstName(),
                 student.getLastName(),
                 student.getEmail(),

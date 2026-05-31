@@ -25,12 +25,12 @@ public class Student {
     private String lastName;
 
     @Column(unique = true)
-    @NaturalId
+    @NaturalId(mutable = true)
     @NotBlank
     @Email
     private String email;
 
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE)
     private List<Enrollment> enrollments = new ArrayList<>();
 
     public Long getId() {
