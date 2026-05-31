@@ -1,5 +1,6 @@
 package pl.poznan.put.student.controller;
 
+import jakarta.validation.Valid;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -23,7 +24,7 @@ public class StudentController {
     }
 
     @POST
-    public StudentDTO createStudent(StudentDTO newStudent) {
+    public StudentDTO createStudent(@Valid StudentDTO newStudent) {
         return this.studentService.createStudent(newStudent);
     }
 

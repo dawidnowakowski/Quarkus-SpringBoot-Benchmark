@@ -1,7 +1,6 @@
 package pl.poznan.put.student.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -30,13 +29,13 @@ public class Enrollment {
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("studentId")
     @JoinColumn(name = "student_id")
-    private @Valid Student student;
+    private Student student;
 
     @ManyToOne
     @MapsId("courseId")
     @JoinColumn(name = "course_id")
     @Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
-    private @Valid Course course;
+    private Course course;
 
     public EnrollmentId getEnrollmentId() {
         return enrollmentId;

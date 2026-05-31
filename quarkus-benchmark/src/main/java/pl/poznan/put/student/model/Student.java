@@ -1,7 +1,6 @@
 package pl.poznan.put.student.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.annotations.NaturalId;
@@ -32,7 +31,7 @@ public class Student {
     private String email;
 
     @OneToMany(mappedBy = "student")
-    private List<@Valid Enrollment> enrollments = new ArrayList<>();
+    private List<Enrollment> enrollments = new ArrayList<>();
 
     public Long getId() {
         return id;
