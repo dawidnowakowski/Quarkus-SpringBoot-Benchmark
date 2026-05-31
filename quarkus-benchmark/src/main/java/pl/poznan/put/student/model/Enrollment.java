@@ -1,12 +1,15 @@
 package pl.poznan.put.student.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "enrollments")
+@Cacheable
 public class Enrollment {
     @EmbeddedId
     private EnrollmentId enrollmentId;
@@ -17,7 +20,7 @@ public class Enrollment {
     @Column(name = "grade")
     private BigDecimal grade;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("studentId")
     @JoinColumn(name = "student_id")
     private Student student;
@@ -25,6 +28,7 @@ public class Enrollment {
     @ManyToOne
     @MapsId("courseId")
     @JoinColumn(name = "course_id")
+    @Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
     private Course course;
 
     public EnrollmentId getEnrollmentId() {
