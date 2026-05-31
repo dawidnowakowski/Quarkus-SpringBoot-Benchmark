@@ -1,6 +1,10 @@
 package pl.poznan.put.student.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -15,21 +19,24 @@ public class Enrollment {
     private EnrollmentId enrollmentId;
 
     @Column(name = "enrollment_date")
+    @NotBlank
     private LocalDate enrollmentDate;
 
-    @Column(name = "grade")
+    @Column(name = "grade", precision = 5, scale = 2)
+    @Min(value = 0, message = "The grade must not be lower than 0.0")
+    @Max(value = 100, message = "The grade must not exceed 100.0")
     private BigDecimal grade;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("studentId")
     @JoinColumn(name = "student_id")
-    private Student student;
+    private @Valid Student student;
 
     @ManyToOne
     @MapsId("courseId")
     @JoinColumn(name = "course_id")
     @Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
-    private Course course;
+    private @Valid Course course;
 
     public EnrollmentId getEnrollmentId() {
         return enrollmentId;

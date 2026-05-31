@@ -1,6 +1,11 @@
 package pl.poznan.put.student.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.NaturalId;
 
 @Entity
 @Table(name = "courses")
@@ -12,12 +17,18 @@ public class Course {
     private Long id;
 
     @Column(name = "title")
+    @NotBlank
+    @NaturalId
     private String title;
 
     @Column(name = "department")
+    @NotBlank
     private String department;
 
     @Column(name = "credits")
+    @NotNull
+    @Min(value = 0, message = "credits must not be lower than 0.0")
+    @Max(value = 30, message = "credits must not exceed 30.0")
     private Integer credits;
 
     public Long getId() {

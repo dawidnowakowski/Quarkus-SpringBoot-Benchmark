@@ -1,6 +1,10 @@
 package pl.poznan.put.student.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import org.hibernate.annotations.NaturalId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,21 +14,25 @@ import java.util.List;
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "students_seq")
-    // to avoid error in schema validation allocationSize must be set to what it is set to in database
     @SequenceGenerator(name = "students_seq", sequenceName = "students_seq", allocationSize = 1)
     private Long id;
 
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "first_name")
+    @NotBlank
     private String firstName;
 
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "last_name")
+    @NotBlank
     private String lastName;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
+    @NaturalId
+    @NotBlank
+    @Email
     private String email;
 
     @OneToMany(mappedBy = "student")
-    private List<Enrollment> enrollments = new ArrayList<>();
+    private List<@Valid Enrollment> enrollments = new ArrayList<>();
 
     public Long getId() {
         return id;
