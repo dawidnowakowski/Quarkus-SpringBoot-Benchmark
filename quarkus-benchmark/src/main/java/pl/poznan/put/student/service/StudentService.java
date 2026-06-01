@@ -2,7 +2,6 @@ package pl.poznan.put.student.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import jakarta.ws.rs.NotFoundException;
 import pl.poznan.put.student.dto.StudentDTO;
 import pl.poznan.put.student.model.Student;
@@ -37,7 +36,7 @@ public class StudentService {
     }
 
     @Transactional
-    public StudentDTO updateStudent(@Valid StudentDTO studentDTO) {
+    public StudentDTO updateStudent(StudentDTO studentDTO) {
         Student student = this.studentRepository.findById(studentDTO.id());
         if (student == null) {
             throw new NotFoundException();
@@ -51,10 +50,8 @@ public class StudentService {
 
     @Transactional
     public void deleteStudent(Long id) {
-        Student student = this.studentRepository.findById(id);
-        if (student == null) {
+        if (!this.studentRepository.deleteById(id)) {
             throw new NotFoundException();
         }
-        this.studentRepository.delete(student);
     }
 }
