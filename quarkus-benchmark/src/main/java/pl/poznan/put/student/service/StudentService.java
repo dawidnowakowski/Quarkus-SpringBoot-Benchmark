@@ -20,7 +20,7 @@ public class StudentService {
 
     @Transactional
     public List<StudentDTO> getAllStudents() {
-        return studentRepository.listAll().stream().map(StudentMapper::map).toList();
+        return studentRepository.fetchAll().stream().map(StudentMapper::map).toList();
     }
 
     @Transactional

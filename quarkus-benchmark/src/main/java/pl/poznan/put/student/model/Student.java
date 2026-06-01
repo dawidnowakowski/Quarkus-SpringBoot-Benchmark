@@ -30,7 +30,7 @@ public class Student {
     @Email
     private String email;
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Enrollment> enrollments = new ArrayList<>();
 
     public Long getId() {

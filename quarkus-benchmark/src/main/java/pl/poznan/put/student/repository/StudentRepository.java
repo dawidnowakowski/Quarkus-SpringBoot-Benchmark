@@ -9,7 +9,7 @@ import java.util.List;
 
 @ApplicationScoped
 public class StudentRepository implements PanacheRepository<Student> {
-    public List<Student> listAll() {
+    public List<Student> fetchAll() {
         String query = "SELECT s FROM Student s LEFT JOIN FETCH s.enrollments e LEFT JOIN FETCH e.course";
         return find(query).list();
     }
