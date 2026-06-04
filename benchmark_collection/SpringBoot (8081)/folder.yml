@@ -1,0 +1,7 @@
+info:
+  name: SpringBoot (8081)
+  type: folder
+  seq: 2
+
+request:
+  auth: inherit

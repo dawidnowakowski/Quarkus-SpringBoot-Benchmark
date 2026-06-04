@@ -1,0 +1,23 @@
+info:
+  name: Create Student
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://localhost:8080/students
+  body:
+    type: json
+    data: |-
+      {
+        "firstName": "Dawid",
+        "lastName": "NowakowskiV2",
+        "email": "ssss@s"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

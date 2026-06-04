@@ -1,0 +1,7 @@
+info:
+  name: Quarkus (8080)
+  type: folder
+  seq: 1
+
+request:
+  auth: inherit
