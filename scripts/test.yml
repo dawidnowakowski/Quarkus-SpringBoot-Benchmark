@@ -1,0 +1,34 @@
+name: quarkus-spring-benchmark
+http:
+  host: http://localhost:8080
+  sharedConnections: 500
+phases:
+  - warmup:
+      constantRate:
+        usersPerSec: 200
+        duration: 60s
+        scenario: &get-all
+          - getAllStudents:
+              - httpRequest:
+                  GET: /students
+  - get-small:
+      constantRate:
+        startAfter: warmup
+        usersPerSec: 500
+        duration: 60s
+        scenario: *get-all
+  - post-populate:
+      constantRate:
+        startAfter: get-small
+        usersPerSec: 500
+        duration: 30s
+        scenario:
+          - createStudent:
+              - randomUUID:
+                  toVar: random_email_suffix
+              - httpRequest:
+                  POST: /students
+                  headers:
+                    Content-Type: application/json
+                  body:
+                    pattern: '{"firstName": "Test", "lastName": "User", "email": "test-${random_email_suffix}@student.put.poznan.pl"}'
