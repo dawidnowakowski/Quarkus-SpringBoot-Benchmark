@@ -1,0 +1,15 @@
+run Postgres in Docker
+taskset -c 0,1,2,3 docker compose -f postgres/compose.yaml up -d
+
+run Quarkus
+taskset -c 4,5,6,7,8,9,10,11 java -jar quarkus-benchmark/target/quarkus-app/quarkus-run.jar
+
+run Spring Boot
+taskset -c 4,5,6,7,8,9,10,11 java -jar spring-boot-benchmark/target/spring-boot-benchmark-0.0.1-SNAPSHOT.jar
+
+run Hyperfoil
+taskset -c 12,13,14,15 hyperfoil-0.29.2/bin/cli.sh
+hyperfoil-0.29.2/bin/cli.sh
+start-local
+upload scripts/test.yml
+run

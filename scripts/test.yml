@@ -1,34 +1,27 @@
-name: quarkus-spring-benchmark
+name: get-capacity-benchmark
 http:
   host: http://localhost:8080
-  sharedConnections: 200
+  sharedConnections: 1000
+  pipeliningLimit: 10
 phases:
-  - warmup:
+  - warmup-get:
       constantRate:
-        usersPerSec: 200
+        usersPerSec: 1000
         duration: 60s
-        scenario: &get-all
-          - getAllStudents:
+        scenario: &get-scenario
+          - getStudent:
+              - randomInt:
+                  toVar: studentId
+                  min: 1
+                  max: 15
               - httpRequest:
-                  GET: /students
-  - get-small:
-      always:
-        users: 200
-        startAfter: warmup
-        duration: 30s
-        scenario: *get-all
-#  - post-populate:
-#      constantRate:
-#        startAfter: get-small
-#        usersPerSec: 500
-#        duration: 30s
-#        scenario:
-#          - createStudent:
-#              - randomUUID:
-#                  toVar: random_email_suffix
-#              - httpRequest:
-#                  POST: /students
-#                  headers:
-#                    Content-Type: application/json
-#                  body:
-#                    pattern: '{"firstName": "Test", "lastName": "User", "email": "test-${random_email_suffix}@student.put.poznan.pl"}'
+                  GET: /students/${studentId}
+                  headers:
+                    Accept: application/json
+  - measure-get-capacity:
+      increasingRate:
+        startAfter: warmup-get
+        initialUsersPerSec: 1000
+        targetUsersPerSec: 20000
+        duration: 3m
+        scenario: *get-scenario
