@@ -13,3 +13,8 @@ hyperfoil-0.29.2/bin/cli.sh
 start-local
 upload scripts/test.yml
 run
+
+create directory for reports
+cd /
+mkdir /tmp/reports
+report --destination=/tmp/reports
