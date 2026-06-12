@@ -71,15 +71,14 @@ phases:
                   toVar: studentId
                   min: 16
                   max: 60000
-              - randomString:
-                  length: 8
-                  toVar: rand_str
+              - randomUUID:
+                  toVar: rand_uuid
               - httpRequest:
                   PUT: /students
                   headers:
                     Content-Type: application/json
                   body:
-                    pattern: '{"id": ${studentId}, "firstName": "Update", "lastName": "${rand_str}", "email": "update-${rand_str}@student.put.poznan.pl"}'
+                    pattern: '{"id": ${studentId}, "firstName": "Update", "lastName": "${rand_uuid}", "email": "update-${rand_uuid}@student.put.poznan.pl"}'
 
   - measure-post-capacity:
       increasingRate:
