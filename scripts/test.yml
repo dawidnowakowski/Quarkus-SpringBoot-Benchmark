@@ -1,13 +1,13 @@
 name: get-capacity-benchmark
 http:
-  host: http://localhost:8080
-  sharedConnections: 1000
+  host: http://169.254.195.146:8080
+  sharedConnections: 2000
   pipeliningLimit: 10
 phases:
   - warmup-get:
       constantRate:
         usersPerSec: 1000
-        duration: 60s
+        duration: 30s
         scenario: &get-scenario
           - getStudent:
               - randomInt:
@@ -22,8 +22,8 @@ phases:
       increasingRate:
         startAfter: warmup-get
         initialUsersPerSec: 1000
-        targetUsersPerSec: 25000
-        duration: 3m
+        targetUsersPerSec: 22000
+        duration: 2m
         scenario: *get-scenario
 
   - populate-large-dataset:
@@ -46,8 +46,8 @@ phases:
       increasingRate:
         startAfter: populate-large-dataset
         initialUsersPerSec: 1000
-        targetUsersPerSec: 25000
-        duration: 3m
+        targetUsersPerSec: 22000
+        duration: 2m
         scenario:
           - getLargeStudent:
               - randomInt:
@@ -64,12 +64,12 @@ phases:
         startAfter: measure-get-large
         initialUsersPerSec: 500
         targetUsersPerSec: 10000
-        duration: 3m
+        duration: 2m
         scenario:
           - updateStudent:
               - randomInt:
                   toVar: studentId
-                  min: 16
+                  min: 1
                   max: 60000
               - randomUUID:
                   toVar: rand_uuid
@@ -85,7 +85,7 @@ phases:
         startAfter: measure-put-capacity
         initialUsersPerSec: 500
         targetUsersPerSec: 10000
-        duration: 3m
+        duration: 2m
         scenario:
           - createStudent:
               - randomUUID:
@@ -107,7 +107,7 @@ phases:
           - deleteStudent:
               - randomInt:
                   toVar: studentId
-                  min: 16
-                  max: 60000
+                  min: 1
+                  max: 600000
               - httpRequest:
                   DELETE: /students/${studentId}
