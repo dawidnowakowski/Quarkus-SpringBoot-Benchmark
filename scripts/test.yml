@@ -29,7 +29,7 @@ phases:
   - populate-large-dataset:
       constantRate:
         startAfter: measure-get-capacity
-        usersPerSec: 2000
+        usersPerSec: 2100
         duration: 30s
         scenario:
           - createSetupStudent:
