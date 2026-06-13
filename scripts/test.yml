@@ -4,31 +4,31 @@ http:
   sharedConnections: 2000
   pipeliningLimit: 10
 phases:
-#  - warmup-get:
-#      constantRate:
-#        usersPerSec: 1000
-#        duration: 30s
-#        scenario: &get-scenario
-#          - getStudent:
-#              - randomInt:
-#                  toVar: studentId
-#                  min: 1
-#                  max: 15
-#              - httpRequest:
-#                  GET: /students/${studentId}
-#                  headers:
-#                    Accept: application/json
-#  - measure-get-capacity:
-#      increasingRate:
-#        startAfter: warmup-get
-#        initialUsersPerSec: 1000
-#        targetUsersPerSec: 19500
-#        duration: 2m
-#        scenario: *get-scenario
+  - warmup-get:
+      constantRate:
+        usersPerSec: 1000
+        duration: 30s
+        scenario: &get-scenario
+          - getStudent:
+              - randomInt:
+                  toVar: studentId
+                  min: 1
+                  max: 15
+              - httpRequest:
+                  GET: /students/${studentId}
+                  headers:
+                    Accept: application/json
+  - measure-get-capacity:
+      increasingRate:
+        startAfter: warmup-get
+        initialUsersPerSec: 1000
+        targetUsersPerSec: 19500
+        duration: 2m
+        scenario: *get-scenario
 
   - populate-large-dataset:
       constantRate:
-#        startAfter: measure-get-capacity
+        startAfter: measure-get-capacity
         usersPerSec: 2100
         duration: 30s
         scenario:
@@ -42,29 +42,28 @@ phases:
                   body:
                     pattern: '{"firstName": "Init", "lastName": "User", "email": "init-${uuid}@student.put.poznan.pl"}'
 
-#  - measure-get-large:
-#      increasingRate:
-#        startAfter: populate-large-dataset
-#        initialUsersPerSec: 1000
-#        targetUsersPerSec: 17500
-#        duration: 2m
-#        scenario:
-#          - getLargeStudent:
-#              - randomInt:
-#                  toVar: studentId
-#                  min: 1
-#                  max: 60000
-#              - httpRequest:
-#                  GET: /students/${studentId}
-#                  headers:
-#                    Accept: application/json
+  - measure-get-large:
+      increasingRate:
+        startAfter: populate-large-dataset
+        initialUsersPerSec: 1000
+        targetUsersPerSec: 17500
+        duration: 2m
+        scenario:
+          - getLargeStudent:
+              - randomInt:
+                  toVar: studentId
+                  min: 1
+                  max: 60000
+              - httpRequest:
+                  GET: /students/${studentId}
+                  headers:
+                    Accept: application/json
 
   - measure-put-capacity:
       increasingRate:
-#        startAfter: measure-get-large
-        startAfter: populate-large-dataset
+        startAfter: measure-get-large
         initialUsersPerSec: 500
-        targetUsersPerSec: 3500
+        targetUsersPerSec: 3850
         duration: 2m
         scenario:
           - updateStudent:
@@ -85,7 +84,7 @@ phases:
       increasingRate:
         startAfter: measure-put-capacity
         initialUsersPerSec: 500
-        targetUsersPerSec: 10000
+        targetUsersPerSec: 3850
         duration: 2m
         scenario:
           - createStudent:
