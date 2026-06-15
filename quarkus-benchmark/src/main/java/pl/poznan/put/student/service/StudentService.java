@@ -50,8 +50,6 @@ public class StudentService {
 
     @Transactional
     public void deleteStudent(Long id) {
-        if (!this.studentRepository.deleteById(id)) {
-            throw new NotFoundException();
-        }
+        this.studentRepository.deleteById(id);
     }
 }

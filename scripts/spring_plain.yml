@@ -1,0 +1,113 @@
+name: get-capacity-benchmark
+http:
+  host: http://169.254.195.146:8080
+  sharedConnections: 2000
+  pipeliningLimit: 10
+phases:
+  - warmup-get:
+      constantRate:
+        usersPerSec: 1000
+        duration: 30s
+        scenario: &get-scenario
+          - getStudent:
+              - randomInt:
+                  toVar: studentId
+                  min: 1
+                  max: 15
+              - httpRequest:
+                  GET: /students/${studentId}
+                  headers:
+                    Accept: application/json
+  - measure-get-capacity:
+      increasingRate:
+        startAfter: warmup-get
+        initialUsersPerSec: 1000
+        targetUsersPerSec: 19500
+        duration: 2m
+        scenario: *get-scenario
+
+  - populate-large-dataset:
+      constantRate:
+        startAfter: measure-get-capacity
+        usersPerSec: 2100
+        duration: 30s
+        scenario:
+          - createSetupStudent:
+              - randomUUID:
+                  toVar: uuid
+              - httpRequest:
+                  POST: /students
+                  headers:
+                    Content-Type: application/json
+                  body:
+                    pattern: '{"firstName": "Init", "lastName": "User", "email": "init-${uuid}@student.put.poznan.pl"}'
+
+  - measure-get-large:
+      increasingRate:
+        startAfter: populate-large-dataset
+        initialUsersPerSec: 1000
+        targetUsersPerSec: 17500
+        duration: 2m
+        scenario:
+          - getLargeStudent:
+              - randomInt:
+                  toVar: studentId
+                  min: 1
+                  max: 60000
+              - httpRequest:
+                  GET: /students/${studentId}
+                  headers:
+                    Accept: application/json
+
+  - measure-put-capacity:
+      increasingRate:
+        startAfter: measure-get-large
+        initialUsersPerSec: 500
+        targetUsersPerSec: 3850
+        duration: 2m
+        scenario:
+          - updateStudent:
+              - randomInt:
+                  toVar: studentId
+                  min: 1
+                  max: 60000
+              - randomUUID:
+                  toVar: rand_uuid
+              - httpRequest:
+                  PUT: /students
+                  headers:
+                    Content-Type: application/json
+                  body:
+                    pattern: '{"id": ${studentId}, "firstName": "Update", "lastName": "${rand_uuid}", "email": "update-${rand_uuid}@student.put.poznan.pl"}'
+
+  - measure-post-capacity:
+      increasingRate:
+        startAfter: measure-put-capacity
+        initialUsersPerSec: 500
+        targetUsersPerSec: 3850
+        duration: 2m
+        scenario:
+          - createStudent:
+              - randomUUID:
+                  toVar: uuid
+              - httpRequest:
+                  POST: /students
+                  headers:
+                    Content-Type: application/json
+                  body:
+                    pattern: '{"firstName": "New", "lastName": "Student", "email": "new-${uuid}@student.put.poznan.pl"}'
+
+  - measure-delete-capacity:
+      increasingRate:
+        startAfter: measure-post-capacity
+        initialUsersPerSec: 100
+        targetUsersPerSec: 5000
+        duration: 2m
+        scenario:
+          - deleteStudent:
+              - randomInt:
+                  toVar: studentId
+                  min: 1
+                  max: 600000
+              - httpRequest:
+                  DELETE: /students/${studentId}
