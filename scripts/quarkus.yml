@@ -22,7 +22,7 @@ phases:
       increasingRate:
         startAfter: warmup-get
         initialUsersPerSec: 1000
-        targetUsersPerSec: 22000
+        targetUsersPerSec: 25000
         duration: 2m
         scenario: *get-scenario
 
@@ -46,7 +46,7 @@ phases:
       increasingRate:
         startAfter: populate-large-dataset
         initialUsersPerSec: 1000
-        targetUsersPerSec: 22000
+        targetUsersPerSec: 25000
         duration: 2m
         scenario:
           - getLargeStudent:
