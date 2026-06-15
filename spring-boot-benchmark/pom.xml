@@ -56,8 +56,21 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.graalvm.buildtools</groupId>
+                <artifactId>native-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <image>
+                        <builder>paketobuildpacks/builder-jammy-buildpackless-tiny</builder>
+                        <buildpacks>
+                            <buildpack>paketobuildpacks/oracle</buildpack>
+                            <buildpack>paketobuildpacks/java-native-image</buildpack>
+                        </buildpacks>
+                    </image>
+                </configuration>
             </plugin>
         </plugins>
     </build>
