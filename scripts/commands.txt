@@ -21,7 +21,7 @@ run Hyperfoil
 taskset -c 12,13,14,15 hyperfoil-0.29.2/bin/cli.sh
 hyperfoil-0.29.2/bin/cli.sh
 start-local
-upload scripts/test.yml
+upload scripts/hyperfoil/test.yml
 run
 
 create directory for reports
