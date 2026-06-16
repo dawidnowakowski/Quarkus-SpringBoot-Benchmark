@@ -18,6 +18,7 @@ create directory for reports
 cd /
 mkdir /tmp/reports
 report --destination=/tmp/reports
+export xxxx -f csv -d /tmp/reports
 
 analyzing jvm logs (garbage collector pause)
 awk '/Pause/ {
