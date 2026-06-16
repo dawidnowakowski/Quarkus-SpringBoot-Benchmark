@@ -44,3 +44,7 @@ python3 scripts/ttfr/measure_ttfr.py "taskset -c 4,5,6,7 java -XX:+UseG1GC -Xms5
 python3 scripts/ttfr/measure_ttfr.py "taskset -c 4,5,6,7 quarkus-benchmark/target/quarkus-benchmark-1.0.0-SNAPSHOT-runner" 8080
 python3 scripts/ttfr/measure_ttfr.py "taskset -c 4,5,6,7 java -XX:+UseG1GC -Xms512m -Xmx512m -jar spring-boot-benchmark/target/spring-boot-benchmark-0.0.1-SNAPSHOT.jar" 8080
 python3 scripts/ttfr/measure_ttfr.py "taskset -c 4,5,6,7 spring-boot-benchmark/target/spring-boot-benchmark" 8080
+
+RSS
+ps -eo rss,pid,comm --sort -rss | numfmt --header --from-unit=1024 --to=iec --field 1 | column -t | grep 'quarkus'
+ps -eo rss,pid,comm --sort -rss | numfmt --header --from-unit=1024 --to=iec --field 1 | column -t | grep 'spring'
