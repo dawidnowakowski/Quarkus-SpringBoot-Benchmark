@@ -1,0 +1,7 @@
+app,rss_idle,rss_load
+quarkus_native,66,232.36
+spring_native_tweaked,158,251.41
+spring_native_plain,150,225.82
+quarkus,231,695.20
+spring_tweaked,454,835.41
+spring_plain,453,823.99
