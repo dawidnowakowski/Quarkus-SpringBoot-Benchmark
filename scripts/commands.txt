@@ -4,7 +4,7 @@ taskset -c 0,1,2,3 docker compose -f postgres/compose.yaml up -d
 run Quarkus
 (JVM)
 ./mvnw clean package
-taskset -c 4,5,6,7 java -XX:+UseG1GC -Xms512m -Xmx512m -jar -Xlog:gc*=info:file=gc-%p-%t.log:time,uptime,level,tags quarkus-benchmark/target/quarkus-app/quarkus-run.jar
+taskset -c 4,5,6,7 java -XX:+UseG1GC -Xms512m -Xmx512m -jar quarkus-benchmark/target/quarkus-app/quarkus-run.jar
 (native)
 ./mvnw clean install -Dnative -DskipTests -Dquarkus.native.container-build=true
 taskset -c 4,5,6,7 quarkus-benchmark/target/quarkus-benchmark-1.0.0-SNAPSHOT-runner
@@ -12,7 +12,7 @@ taskset -c 4,5,6,7 quarkus-benchmark/target/quarkus-benchmark-1.0.0-SNAPSHOT-run
 run Spring Boot
 (JVM)
 ./mvnw clean package
-taskset -c 4,5,6,7 java -XX:+UseG1GC -Xms512m -Xmx512m -Xlog:gc*=info:file=gc-%p-%t.log:time,uptime,level,tags -jar spring-boot-benchmark/target/spring-boot-benchmark-0.0.1-SNAPSHOT.jar
+taskset -c 4,5,6,7 java -XX:+UseG1GC -Xms512m -Xmx512m -jar spring-boot-benchmark/target/spring-boot-benchmark-0.0.1-SNAPSHOT.jar
 (native)
 ./mvnw clean -Pnative native:compile
 taskset -c 4,5,6,7 spring-boot-benchmark/target/spring-boot-benchmark
