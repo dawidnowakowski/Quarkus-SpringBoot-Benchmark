@@ -1,9 +1,12 @@
 import pandas as pd
+import matplotlib
 import matplotlib.pyplot as plt
 import os
+import sys
+
+matplotlib.use('Agg')
 
 def plot_comprehensive_series(csv_path, output_name):
-    print(f"Processing series data: {csv_path}")
     df = pd.read_csv(csv_path)
     
     df['Time (s)'] = (df['Start'] - df['Start'].min()) / 1000.0
@@ -40,7 +43,6 @@ def plot_comprehensive_series(csv_path, output_name):
     plt.close()
 
 def plot_wider_histogram(csv_path, output_name):
-    print(f"Processing histogram data: {csv_path}")
     df = pd.read_csv(csv_path)
     
     df['Percentile_Pct'] = df['Percentile'] * 100
@@ -69,11 +71,4 @@ def plot_wider_histogram(csv_path, output_name):
     plt.close()
 
 if __name__ == "__main__":
-    series_file = "measure-get-capacity.getStudent.135.series.csv"
-    hist_file = "measure-get-capacity.getStudent.135.histogram.csv"
-    
-    if os.path.exists(series_file):
-        plot_comprehensive_series(series_file, "thesis_series_plot_wide.png")
-    
-    if os.path.exists(hist_file):
-        plot_wider_histogram(hist_file, "thesis_histogram_plot_wide.png")
+    print("This script is now a module. Run 'generate_all_charts.py' instead.")
