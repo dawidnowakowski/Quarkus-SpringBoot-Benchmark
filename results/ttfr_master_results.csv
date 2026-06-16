@@ -1,0 +1,7 @@
+Command,Mean_TTFR_ms,StdDev_ms
+"taskset -c 4,5,6,7 java -XX:+UseG1GC -Xms512m -Xmx512m -jar quarkus-benchmark/target/quarkus-app/quarkus-run.jar",1251.49,13.22
+"taskset -c 4,5,6,7 java -XX:+UseG1GC -Xms512m -Xmx512m -jar spring-boot-benchmark/target/spring-boot-benchmark-0.0.1-SNAPSHOT.jar",2410.08,29.04 //plain
+"taskset -c 4,5,6,7 java -XX:+UseG1GC -Xms512m -Xmx512m -jar spring-boot-benchmark/target/spring-boot-benchmark-0.0.1-SNAPSHOT.jar",2432.41,26.77 //tweaked
+"taskset -c 4,5,6,7 quarkus-benchmark/target/quarkus-benchmark-1.0.0-SNAPSHOT-runner",36.21,0.26
+"taskset -c 4,5,6,7 spring-boot-benchmark/target/spring-boot-benchmark",88.04,1.14
+"taskset -c 4,5,6,7 spring-boot-benchmark/target/spring-boot-benchmark",88.35,0.96
