@@ -1,0 +1,51 @@
+name: get-capacity-benchmark
+http:
+  host: http://169.254.195.146:8080
+  sharedConnections: 2000
+  pipeliningLimit: 10
+phases:
+  - populate-large-dataset:
+      constantRate:
+        startAfter: warmup-get
+        usersPerSec: 2100
+        duration: 30s
+        scenario:
+          - createSetupStudent:
+              - randomUUID:
+                  toVar: uuid
+              - httpRequest:
+                  POST: /students
+                  headers:
+                    Content-Type: application/json
+                  body:
+                    pattern: '{"firstName": "Init", "lastName": "User", "email": "init-${uuid}@student.put.poznan.pl"}'
+  - warmup-get:
+      constantRate:
+        usersPerSec: 1000
+        duration: 30s
+        scenario: &get-scenario
+          - getStudent:
+              - randomInt:
+                  toVar: studentId
+                  min: 1
+                  max: 15
+              - httpRequest:
+                  GET: /students/${studentId}
+                  headers:
+                    Accept: application/json
+
+  - warmup-get:
+      constantRate:
+        startAfter: populate-large-dataset
+        usersPerSec: 13000
+        duration: 2m
+        scenario:
+          - getLargeStudent:
+              - randomInt:
+                  toVar: studentId
+                  min: 1
+                  max: 60000
+              - httpRequest:
+                  GET: /students/${studentId}
+                  headers:
+                    Accept: application/json

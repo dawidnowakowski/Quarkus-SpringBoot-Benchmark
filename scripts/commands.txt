@@ -21,7 +21,7 @@ run Hyperfoil
 taskset -c 12,13,14,15 hyperfoil-0.29.2/bin/cli.sh
 hyperfoil-0.29.2/bin/cli.sh
 start-local
-upload scripts/test.yml
+upload scripts/hyperfoil/test.yml
 run
 
 create directory for reports
@@ -38,3 +38,15 @@ awk '/Pause/ {
     gsub(/ms/, "", duration);
     print duration " " timestamp
 }' gc-*.log | sort -nr | head -n 10
+
+Measuring Time To First Response
+python3 scripts/ttfr/measure_ttfr.py "taskset -c 4,5,6,7 java -XX:+UseG1GC -Xms512m -Xmx512m -jar quarkus-benchmark/target/quarkus-app/quarkus-run.jar" 8080
+python3 scripts/ttfr/measure_ttfr.py "taskset -c 4,5,6,7 quarkus-benchmark/target/quarkus-benchmark-1.0.0-SNAPSHOT-runner" 8080
+python3 scripts/ttfr/measure_ttfr.py "taskset -c 4,5,6,7 java -XX:+UseG1GC -Xms512m -Xmx512m -jar spring-boot-benchmark/target/spring-boot-benchmark-0.0.1-SNAPSHOT.jar" 8080
+python3 scripts/ttfr/measure_ttfr.py "taskset -c 4,5,6,7 spring-boot-benchmark/target/spring-boot-benchmark" 8080
+
+RSS
+ps -eo rss,pid,comm --sort -rss | numfmt --header --from-unit=1024 --to=iec --field 1 | column -t | grep 'quarkus'
+ps -eo rss,pid,comm --sort -rss | numfmt --header --from-unit=1024 --to=iec --field 1 | column -t | grep 'spring'
+ps -eo rss,pid,comm --sort -rss | numfmt --header --from-unit=1024 --to=iec --field 1 | column -t | grep 'java'
+./scripts/rss/rss.sh java spring_tweaked.csv
